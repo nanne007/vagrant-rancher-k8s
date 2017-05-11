@@ -14,10 +14,12 @@ Vagrant.configure("2") do |config|
     node_name = "node#{i}"
     node_ip = "192.168.32.1#{i}"
     config.vm.define(node_name) do |node|
+      node.vm.hostname = node_name
       node.vm.box_check_update = false
       node.vm.box = "ubuntu/xenial64"
       node.vm.network :private_network, ip: node_ip
       node.vm.provision "docker"
+
     end
   end
 
