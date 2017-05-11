@@ -1,0 +1,12 @@
+version: "3"
+volumes:
+  mysql-data:
+services:
+  rancher-server:
+    image: rancher/server:v1.6.0
+    ports:
+      - "18080:8080"
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+
