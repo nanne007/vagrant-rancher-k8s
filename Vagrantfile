@@ -5,25 +5,32 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+def config_node(node, hostname, node_ip)
+  node.vm.hostname = hostname
+  node.vm.box_check_update = false
+  node.vm.box = "ubuntu/trusty64"
+  # node.disksize.size = "20GB"
+  node.vm.network :private_network, ip: node_ip
+  node.vm.provision "docker"
+end
+
 Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  [1, 2, 3].each do |i|
-    node_name = "node#{i}"
-    node_ip = "192.168.32.1#{i}"
-    config.vm.define(node_name) do |node|
-      node.vm.hostname = node_name
-      node.vm.box_check_update = false
-      node.vm.box = "ubuntu/xenial64"
-      node.vm.network :private_network, ip: node_ip
-      node.vm.provision "docker"
-
-    end
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 1
   end
 
-  config.vm.box = "centos/7"
+  (1..3).each do |i|
+    node_name = 'rancher-host-%02d' % i
+    node_ip = "192.168.32.1#{i}"
+    config.vm.define(node_name) do |node|
+      config_node(node, node_name, node_ip)
+    end
+  end
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
 
