@@ -8,7 +8,8 @@
 def config_node(node, hostname, node_ip)
   node.vm.hostname = hostname
   node.vm.box_check_update = false
-  node.vm.box = "ubuntu/trusty64"
+  # node.vm.box = "ubuntu/trusty64"
+  node.vm.box = "ubuntu/xenial64"
   # node.disksize.size = "20GB"
   node.vm.network :private_network, ip: node_ip
   node.vm.provision "docker"
@@ -20,7 +21,7 @@ Vagrant.configure("2") do |config|
   # https://docs.vagrantup.com.
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 1536
     v.cpus = 1
   end
 
