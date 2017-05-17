@@ -1,0 +1,11 @@
+version: "2"
+services:
+  privoxy:
+    image: bluebu/shadowsocks-privoxy
+    ports:
+      - "8118:8118"
+    restart: always
+    environment:
+      - SERVER_ADDR=146.185.146.219
+      - SERVRE_PORT=8388
+      - PASSWORD=caojiafeng
